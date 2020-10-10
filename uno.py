@@ -1,4 +1,10 @@
 from random import randint
+#pretty_suits = {
+#    'Spade': '\u2664',
+#    'Club': '\u2667',
+#    'Heart': '\u2661',
+#    'Diamond': '\u2662'
+#    }
 NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 COLORS = ["🔴","🟢","🟡","🔵" ]
 
@@ -7,6 +13,9 @@ class Card:
     def __init__(self, number, color):
         self.number = number
         self.color = color
+
+
+
 
     def ___str___(self):
         return f"{self.color} {self.number}"   
@@ -17,7 +26,7 @@ class Player:
         self.name = name 
 
 
-class Deck:
+class makeDeck:
     def __init__(self, numbers, colors):
         self.cards = []
         for number in numbers:
@@ -38,3 +47,7 @@ class Deck:
 
 class Game:
     pass
+
+#Dealer deals 7 cards to each player
+
+
