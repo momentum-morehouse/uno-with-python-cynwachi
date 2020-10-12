@@ -12,7 +12,7 @@ Return values: deck -> list
 def buildDeck():
     deck = []
     #example card: Red 7, Green 8, Blue SK
-    colors = ["Blue", "Red", "Yellow", "Green"]
+    colors = ["Blue", "Red", "Yellow", "Green" ]
     values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "Draw Two", "Skip", "Reverse"]
     wilds = ["Wild", "Wild Draw Four"]
     for color in colors:
@@ -59,9 +59,9 @@ Parameter: player = integer, playerHand = -> list
 Return:None
 """
 def showHand(player, playerHand):
-    print("Player {}".format(player+1))
+    print("Player {}' Turn".format(player+1))
     print("Your Hand")
-    print('========')
+    print('==============')
     y = 1
     for card in playerHand:
         print("{}) {}".format(y,card))
@@ -89,11 +89,12 @@ def canPlay(color, value, playerHand):
 unoDeck = buildDeck()
 unoDeck = shuffleDeck(unoDeck)
 unoDeck = shuffleDeck(unoDeck)
+discards = []
 print(unoDeck)
 
 
 players = []
-discards = []
+colors = ["Blue", "Red", "Yellow", "Green" ]
 numPlayers = int(input("How many players?"))
 while numPlayers<2 or numPlayers>4:
     numPlayers = int(input("Try Again. Use a number between 2-4. How many players?"))
@@ -122,8 +123,31 @@ while playing:
     else:
         print("You cant play. You need to draw a card.")
         players[playerTurn].extend(drawCards(1))
+    print("")
+    
+#check for special cards
+splitCard = discards[0].split(" ", 1)
+currentColor = splitCard[0]
+if len(splitCard) == 1:
+    cardVal = "Any"
+else:
+    cardVal = splitCard[1]
+if currentColor == "Wild":
+    for x in range(len(colors)):
+        print("{}) {}".format(x+1, colors[x]))
+    newColor = int(input)("What color would you like to choose? ")
+    while newColor < 1 or newColor >4:
+        newColor = int(input("Wrong, Choose a color"))
+    currentColor = colors[newColor-1]
+    if cardVal == "Reverse":
+        playDirection = playDirection * -1
+        
+    
     playerTurn += playDirection
-
+    if playerTurn == numPlayers:
+        playerTurn = 0
+    elif playerTurn < 0:
+        playerTurn = numPlayers-1
 
 
 
