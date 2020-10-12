@@ -2,10 +2,10 @@ import random
 
 #Uno Game Python
 """
-Generate the uno deck of 108 card.
+Generate the uno deck of 108 cards.
 Red green blue yellow
 one 0 card, two 1, 2, 3, 4, 5, 6, 7, 8, 9, D2, SK, RE; and four W, WD
-Parameters: NOnoe 
+Parameters: None 
 Return values: deck -> list
 """
 #Build Deck function 
@@ -43,6 +43,7 @@ def shuffleDeck(deck):
 #Shuffle Deck function  complete here
 #create a dealer function that deals x number of cards 
 #create a data set that allows for viewing hands 
+#==>Deal X cards to player
 """Draw card function that draws a specified number of cards off the top of the deck 
 Parameters: numbCards => interger
 Return: cardsDrawn =>
@@ -88,9 +89,9 @@ def canPlay(color, value, playerHand):
 
 unoDeck = buildDeck()
 unoDeck = shuffleDeck(unoDeck)
-unoDeck = shuffleDeck(unoDeck)
-discards = []
-print(unoDeck)
+unoDeck = shuffleDeck(unoDeck) #shuffle twice
+discards = [] #emtpy list 
+print(unoDeck) #prints the built and shuffled deck named unoDeck
 
 
 players = []
@@ -121,25 +122,27 @@ while playing:
             cardChosen = int(input("Not a valid card. Which card do you want to play?"))
         discards.append(players[playerTurn].pop(cardChosen-1))
     else:
-        print("You cant play. You need to draw a card.")
+        print("You cant play. Draw a card.")
         players[playerTurn].extend(drawCards(1))
     print("")
     
-#check for special cards
-splitCard = discards[0].split(" ", 1)
-currentColor = splitCard[0]
+#check for special cards #=>Apply card Effects
+
+#Reverse
+    splitCard = discards[0].split(" ", 1)
+    currentColor = splitCard[0] #
 if len(splitCard) == 1:
-    cardVal = "Any"
+    cardVal = "Any" #the value of the card is True
 else:
     cardVal = splitCard[1]
 if currentColor == "Wild":
     for x in range(len(colors)):
         print("{}) {}".format(x+1, colors[x]))
-    newColor = int(input)("What color would you like to choose? ")
-    while newColor < 1 or newColor >4:
+    newColor = int(input)("What color would you like to choose? ") #choosing a new color based on what we printed
+    while newColor < 1 or newColor > 4:
         newColor = int(input("Wrong, Choose a color"))
-    currentColor = colors[newColor-1]
-    if cardVal == "Reverse":
+    currentColor = colors[newColor-1] #makes current color == to string 
+    if cardVal == "Reverse":    #this is the string that was made [newColor-1]
         playDirection = playDirection * -1
         
     
@@ -158,9 +161,9 @@ if currentColor == "Wild":
 #=> Play Card 2.o
 #=>Have a user choose a card to play
 #=>Validate card played
-#=>Apply card Effects
+
 #==>Version 3.0
-#==>Deal X cards to player
+
 #==>Skip a turn
 #==>Reverse order
 #=>Check for uno or win condition
