@@ -1,6 +1,5 @@
 import random
 
-
 #Uno Game Python
 """
 Generate the uno deck of 108 card.
@@ -63,7 +62,7 @@ def showHand(player, playerHand):
     print("Player {}".format(player+1))
     print("Your Hand")
     print('========')
-    y =1
+    y = 1
     for card in playerHand:
         print("{}) {}".format(y,card))
         y+=1
@@ -73,7 +72,7 @@ def showHand(player, playerHand):
 #Discard function that tells when a player can play = True
 
 Check whether a player is able to play a card, or not 
-Parameters: color-> string -> value , playerHand = > list
+Parameters: color-> string -> value string  , playerHand = > list
 Return:
 """
 
@@ -86,9 +85,6 @@ def canPlay(color, value, playerHand):
         return True
     return False
 
-    splitCard = discardCard.split
-    color = splitCard[0]
-    cardValue = splitCard[1]
 
 unoDeck = buildDeck()
 unoDeck = shuffleDeck(unoDeck)
@@ -97,9 +93,10 @@ print(unoDeck)
 
 
 players = []
+discards = []
 numPlayers = int(input("How many players?"))
 while numPlayers<2 or numPlayers>4:
-    numPlayers = int(input("INvalid. PLease enter a number between 2-4. How many players?"))
+    numPlayers = int(input("Try Again. Use a number between 2-4. How many players?"))
 for player in range(numPlayers):
     players.append(drawCards(5))
 
@@ -107,9 +104,9 @@ playerTurn = 0
 playDirection = 1
 playing = True
 discards.append(unoDeck.pop(0))
-splitCard = discards[0].split(" ",1)
+splitCard = discards[0].split(" ", 1)
 currentColor = splitCard[0]
-if currentColor != "Wild"
+if currentColor != "Wild":
     cardVal = splitCard[1]
 else:
     cardVal = "Any"
@@ -117,8 +114,20 @@ else:
 while playing:
     showHand(playerTurn, players[playerTurn])
     print("Card on top of discard pile: {}".format(discards[-1]))
-    if canPlay(currentColor, cardVal, players[playerTurn])
-        cardChosen = input("Which card do you want to play?")
+    if canPlay(currentColor, cardVal, players[playerTurn]):
+        cardChosen = int(input("Which card do you want to play? "))
+        while not canPlay(currentColor, cardVal,[players[playerTurn][cardChosen-1]]):
+            cardChosen = int(input("Not a valid card. Which card do you want to play?"))
+        discards.append(players[playerTurn].pop(cardChosen-1))
+    else:
+        print("You cant play. You need to draw a card.")
+        players[playerTurn].extend(drawCards(1))
+    playerTurn += playDirection
+
+
+
+
+
 
 
 #Play Card
