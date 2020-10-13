@@ -10,18 +10,18 @@ Return values: deck -> list
 """
 #Build Deck function 
 def buildDeck():
-    deck = []
+    deck = [] #empty list 
     #example card: Red 7, Green 8, Blue SK
-    colors = ["Blue", "Red", "Yellow", "Green" ]
+    colors = ["🔴","🟢","🟡","🔵" ] #This is a local variable so I need to restate it if using it later
     values = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "Draw Two", "Skip", "Reverse"]
     wilds = ["Wild", "Wild Draw Four"]
     for color in colors:
         for value in values:
-            cardVal = "{} {}".format(color, value)
+            cardVal = "{} {}".format(color, value) #The format method
             deck.append(cardVal)
             if value != 0:
                 deck.append(cardVal)
-    for i in range(4):
+    for i in range(4): #Iterate over the range of 
         deck.append(wilds[0])
         deck.append(wilds[1])
 
@@ -36,7 +36,7 @@ Return values: deck => list
 """
 
 def shuffleDeck(deck):
-    for cardPosition in range(len(deck)):
+    for cardPosition in range(len(deck)): #To interate over indeces of a sequence 
         randPosition = random.randint(0,107)
         deck[cardPosition], deck[randPosition] = deck[randPosition], deck[cardPosition]
     return deck
@@ -54,8 +54,8 @@ def drawCards(numCards):
         cardsDrawn.append(unoDeck.pop(0))
     return cardsDrawn
 """
-#View hands function to show hand
-Print formatted list of player's hand
+#showHands function to show hand
+Print formatted (use format method) list of player's hand
 Parameter: player = integer, playerHand = -> list
 Return:None
 """
@@ -79,11 +79,11 @@ Return:
 
 def canPlay(color, value, playerHand):
     for card in playerHand:
-        splitCard = card.split(' ',1) 
-    if "Wild" in card:
-        return True
-    elif color in card or value in card:
-        return True
+        # testing splitCard = card.split(' ',1) 
+        if "Wild" in card:
+            return True
+        elif color in card or value in card:
+            return True
     return False
 
 
@@ -91,19 +91,20 @@ unoDeck = buildDeck()
 unoDeck = shuffleDeck(unoDeck)
 unoDeck = shuffleDeck(unoDeck) #shuffle twice
 discards = [] #emtpy list 
-print(unoDeck) #prints the built and shuffled deck named unoDeck
+print(unoDeck) # dont think I need this printed # but it prints the built and shuffled deck named unoDeck
 
-
+#2.0print("Enter number of players to begin")
 players = []
-colors = ["Blue", "Red", "Yellow", "Green" ]
+colors = ["🔴","🟢","🟡","🔵" ]
 numPlayers = int(input("How many players?"))
 while numPlayers<2 or numPlayers>4:
-    numPlayers = int(input("Try Again. Use a number between 2-4. How many players?"))
+    numPlayers = int(input("Try Again. Use a number between 2-4 How many players?"))
 for player in range(numPlayers):
     players.append(drawCards(5))
 
 playerTurn = 0 
-playDirection = 1
+
+playDirection = 1 #comes out in later lists, indexes to control direction as (the sum or divisor of a number)
 playing = True
 discards.append(unoDeck.pop(0))
 splitCard = discards[0].split(" ", 1)
@@ -128,25 +129,30 @@ while playing:
     
 #check for special cards #=>Apply card Effects
 
-#Reverse
+# Apply the state to the Reverse card
     splitCard = discards[0].split(" ", 1)
     currentColor = splitCard[0] #
-if len(splitCard) == 1:
-    cardVal = "Any" #the value of the card is True
-else:
-    cardVal = splitCard[1]
-if currentColor == "Wild":
-    for x in range(len(colors)):
-        print("{}) {}".format(x+1, colors[x]))
-    newColor = int(input)("What color would you like to choose? ") #choosing a new color based on what we printed
-    while newColor < 1 or newColor > 4:
-        newColor = int(input("Wrong, Choose a color"))
-    currentColor = colors[newColor-1] #makes current color == to string 
+    if len(splitCard) == 1:
+        cardVal = "Any" #the value of the card is True
+    else:
+        cardVal = splitCard[1]
+    if currentColor == "Wild": #assigning wild a color
+        for x in range(len(colors)):
+            print("{}) {}".format(x+1, colors[x])) #print list of colors 
+        newColor = int(input("What color would you like to choose? ")) #choosing a new color based on what we printed
+        while newColor < 1 or newColor > 4: #printed list of available color
+            newColor = int(input("Wrong, Choose a color")) #Verify entry 
+        currentColor = colors[newColor-1] # take the 1 and subtract 1 to makes current color == to string refers to the index of colors
     if cardVal == "Reverse":    #this is the string that was made [newColor-1]
-        playDirection = playDirection * -1
-        
-    
-    playerTurn += playDirection
+        playDirection = playDirection * -1 #makes playDirection become to 1 if already used them makes it 1 chaging payer turn based on play direction
+    elif cardVal == "Skip":
+        playerTurn += playDirection #increses/decreases play direction by another 1
+    elif cardVal == "Draw Two":
+        players[playerTurn.extend(drawCards(2))]
+    elif  cardVal == "Draw Four":
+        players[playerTurn.extend(drawCards(4))]
+
+  playerTurn += playDirection # if play direction is - then chagin player turn based on play directon makes it go down 
     if playerTurn == numPlayers:
         playerTurn = 0
     elif playerTurn < 0:
